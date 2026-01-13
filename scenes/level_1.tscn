@@ -1,0 +1,219 @@
+[gd_scene load_steps=24 format=3 uid="uid://bjmsqj0xkjmlr"]
+
+[ext_resource type="Script" uid="uid://cbpkjvji7gk0a" path="res://scripts/level_1.gd" id="1_kd0sr"]
+[ext_resource type="Script" uid="uid://cvk2cewlu323j" path="res://scripts/ingredient_manager.gd" id="1_sy0kq"]
+[ext_resource type="Texture2D" uid="uid://dwtb3fdxloe1a" path="res://assets/Sign.png" id="2_ekjwa"]
+[ext_resource type="PackedScene" uid="uid://cv66ab71crrxd" path="res://scenes/overlay.tscn" id="2_ptpf1"]
+[ext_resource type="PackedScene" uid="uid://c4vccsaskxygi" path="res://scenes/ing1.tscn" id="3_ahxml"]
+[ext_resource type="PackedScene" uid="uid://0d0dwfveupt1" path="res://scenes/beach-ld.tscn" id="5_8bxnv"]
+[ext_resource type="FontFile" uid="uid://dsqwije2j027h" path="res://assets/Other/Peaberry Base/Peaberry-Base.otf" id="6_c0ed7"]
+[ext_resource type="PackedScene" uid="uid://btljl67540cjj" path="res://scenes/ing2.tscn" id="6_ja8px"]
+[ext_resource type="PackedScene" uid="uid://dlqw8nxlq3gwy" path="res://scenes/ing3.tscn" id="7_0bpqi"]
+[ext_resource type="PackedScene" uid="uid://cewaah215cyps" path="res://scenes/cauldron.tscn" id="7_rubto"]
+[ext_resource type="Texture2D" uid="uid://bkputnynd6c62" path="res://assets/Ocean/Ocean_2/5.png" id="8_1sk5l"]
+[ext_resource type="Shader" uid="uid://bkir78tb37kep" path="res://shaders/water.gdshader" id="9_bhve8"]
+[ext_resource type="Texture2D" uid="uid://c2kou1pukxyi1" path="res://icon.svg" id="10_o8dyn"]
+[ext_resource type="AudioStream" uid="uid://7we2ma1yd81n" path="res://assets/music/lv1_beach.ogg" id="12_uje8k"]
+[ext_resource type="Script" uid="uid://2ofjgu7vmhnm" path="res://scripts/whalepath.gd" id="13_salhk"]
+[ext_resource type="PackedScene" uid="uid://6g6r5f0de068" path="res://scenes/platforms/whale.tscn" id="14_6a2pp"]
+[ext_resource type="Script" uid="uid://c4qkda2fqfj5k" path="res://addons/dialogic/Modules/Text/node_next_indicator.gd" id="15_lhnwo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_457nn"]
+noise_type = 2
+frequency = 0.013
+fractal_type = 2
+fractal_gain = 0.98
+fractal_weighted_strength = 0.75
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_putd4"]
+width = 128
+height = 128
+seamless = true
+seamless_blend_skirt = 0.6
+noise = SubResource("FastNoiseLite_457nn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xah76"]
+shader = ExtResource("9_bhve8")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/fast_noise = SubResource("NoiseTexture2D_putd4")
+shader_parameter/speed = Vector2(0.02, 0.05)
+shader_parameter/wave_strength = 2.0
+shader_parameter/fade_start = 0.2
+shader_parameter/fade_end = 0.8
+
+[sub_resource type="Curve2D" id="Curve2D_a7vwt"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -2911, 1322, -76, -8, 76, 8, -659, 1198)
+}
+point_count = 2
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qahy4"]
+normal = Vector2(1, 0)
+distance = 267.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_muolu"]
+normal = Vector2(-1, 0)
+distance = -36.0
+
+[node name="level_1" type="Node"]
+script = ExtResource("1_kd0sr")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-8, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+texture_filter = 1
+position = Vector2(-26, 398)
+scale = Vector2(5.125, 3.07813)
+texture = ExtResource("2_ekjwa")
+
+[node name="OverlayScene" parent="." instance=ExtResource("2_ptpf1")]
+
+[node name="Cauldron" parent="." instance=ExtResource("7_rubto")]
+z_index = 1
+position = Vector2(115, 439)
+scale = Vector2(0.6, 0.6)
+
+[node name="IngredientManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_sy0kq")
+
+[node name="IngCounter" type="Label" parent="IngredientManager"]
+texture_filter = 1
+offset_left = -82.0
+offset_top = 378.0
+offset_right = 211.0
+offset_bottom = 408.0
+theme_override_fonts/font = ExtResource("6_c0ed7")
+text = "The
+Beach"
+
+[node name="Ingredients" type="Node" parent="."]
+
+[node name="Crate" parent="Ingredients" instance=ExtResource("3_ahxml")]
+z_index = 1
+position = Vector2(1783, 1766)
+
+[node name="Crate2" parent="Ingredients" instance=ExtResource("3_ahxml")]
+z_index = 1
+position = Vector2(-34, 1774)
+
+[node name="Crate3" parent="Ingredients" instance=ExtResource("3_ahxml")]
+z_index = 1
+position = Vector2(-2330, 1764)
+
+[node name="Seaweed" parent="Ingredients" instance=ExtResource("6_ja8px")]
+z_index = 1
+position = Vector2(456, 1572)
+
+[node name="Seaweed2" parent="Ingredients" instance=ExtResource("6_ja8px")]
+z_index = 1
+position = Vector2(-162, 1157)
+
+[node name="Seaweed3" parent="Ingredients" instance=ExtResource("6_ja8px")]
+z_index = 1
+position = Vector2(2337, 1715)
+
+[node name="Seaweed4" parent="Ingredients" instance=ExtResource("6_ja8px")]
+z_index = 1
+position = Vector2(-2914, 1766)
+
+[node name="Seaweed5" parent="Ingredients" instance=ExtResource("6_ja8px")]
+z_index = 1
+position = Vector2(-2042, 1411)
+
+[node name="Crab" parent="Ingredients" instance=ExtResource("7_0bpqi")]
+z_index = 1
+position = Vector2(-719, 478)
+
+[node name="Crab2" parent="Ingredients" instance=ExtResource("7_0bpqi")]
+z_index = 1
+position = Vector2(-2477, 286)
+
+[node name="Crab3" parent="Ingredients" instance=ExtResource("7_0bpqi")]
+z_index = 1
+position = Vector2(2331, 477)
+
+[node name="Crab4" parent="Ingredients" instance=ExtResource("7_0bpqi")]
+z_index = 1
+position = Vector2(1917, 934)
+
+[node name="Crab5" parent="Ingredients" instance=ExtResource("7_0bpqi")]
+z_index = 1
+position = Vector2(-1252, 1655)
+
+[node name="Level Design" parent="." instance=ExtResource("5_8bxnv")]
+position = Vector2(0, 409)
+
+[node name="SpawnPoint1" type="Marker2D" parent="."]
+position = Vector2(-53, 443)
+
+[node name="SpawnPoint2" type="Marker2D" parent="."]
+position = Vector2(177, 436)
+
+[node name="Shimmer" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_xah76")
+position = Vector2(-106.5, 1631.5)
+scale = Vector2(48.3984, 13.2891)
+texture = ExtResource("10_o8dyn")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Shimmer"]
+position = Vector2(-0.371918, 1.28514)
+scale = Vector2(6.4124, 6.66988)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_uje8k")
+volume_db = -6.0
+autoplay = true
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Background"]
+z_index = -9
+position = Vector2(536, 243)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("8_1sk5l")
+
+[node name="Background2" type="Sprite2D" parent="Background"]
+z_index = -9
+position = Vector2(-2915, 243)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("8_1sk5l")
+
+[node name="Background3" type="Sprite2D" parent="Background"]
+z_index = -9
+position = Vector2(3991, 243)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("8_1sk5l")
+
+[node name="Whale" type="Path2D" parent="."]
+position = Vector2(-8, 8)
+curve = SubResource("Curve2D_a7vwt")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Whale"]
+position = Vector2(-2911, 1322)
+rotation = -0.0550066
+script = ExtResource("13_salhk")
+
+[node name="StaticBody2D" parent="Whale/PathFollow2D" instance=ExtResource("14_6a2pp")]
+
+[node name="No arrow" type="Node" parent="."]
+
+[node name="DialogicNode_NextIndicator" type="Control" parent="No arrow"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("15_lhnwo")
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Boundaries"]
+
+[node name="Leftt" type="CollisionShape2D" parent="Boundaries/RigidBody2D"]
+position = Vector2(-3422, 634)
+shape = SubResource("WorldBoundaryShape2D_qahy4")
+
+[node name="Right" type="CollisionShape2D" parent="Boundaries/RigidBody2D"]
+position = Vector2(2889, 1255)
+shape = SubResource("WorldBoundaryShape2D_muolu")
